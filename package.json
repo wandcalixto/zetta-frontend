@@ -2,9 +2,9 @@
   "name": "zetta-frontend",
   "version": "0.1.0",
   "engines": {
-    "node": "8.x",
-    "npm": "3.x",
-    "yarn": "0.x"
+    "node": "8.10.0",
+    "npm": "3.5.2",
+    "yarn": "0.32"
   },
   "private": true,
   "scripts": {
