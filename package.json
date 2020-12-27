@@ -3,13 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "heroku-postbuild": "npm run build"
-  },
-  "engines": {
-    "node": "8.10.0",
-    "npm": "3.5.2"
-  }
-  "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
