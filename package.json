@@ -1,6 +1,11 @@
 {
   "name": "zetta-frontend",
   "version": "0.1.0",
+  "engines": {
+    "node": "8.x",
+    "npm": "3.x",
+    "yarn": "0.x"
+  },
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
