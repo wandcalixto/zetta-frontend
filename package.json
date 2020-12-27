@@ -4,7 +4,7 @@
   "engines": {
     "node": "8.10.0",
     "npm": "3.5.2",
-    "yarn": "0.32"
+    "yarn": "1.22.10"
   },
   "private": true,
   "scripts": {
@@ -17,7 +17,8 @@
     "primeicons": "^4.1.0",
     "primevue": "^3.1.1",
     "vue": "^2.6.11",
-    "vue-router": "^3.4.9"
+    "vue-router": "^3.4.9",
+    "yarn": "^1.22.10"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
