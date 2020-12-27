@@ -19,7 +19,8 @@ export default{
     },
 
     buscaCargoDescricao: (cargo) => {
-        return http.get('cargo/descricao', cargo)
+        return http.get('cargo/descricao/'+cargo)
+        
     }
 
 
