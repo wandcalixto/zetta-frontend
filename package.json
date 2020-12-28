@@ -10,12 +10,11 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "postinstall": "npm run build",
-    "start": "node server.js",
-    "install:clean": "rm -rf node_modules/ && package-lock.json && npm install && npm run dev"
+    "postinstall": "npm run build"
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "v-mask": "^2.2.3",
     "vue": "^2.6.11"
   },
   "devDependencies": {
