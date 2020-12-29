@@ -21,11 +21,12 @@
 
           <tr>
             <th>ID</th>
-            <th>NOME</th>
+            <th>Nome</th>
             <th>CPF</th>
             <th>Data de Nascimento</th>
             <th>Gênero</th>
-            <th>OPÇÕES</th>
+            <th>Data do Cadastro</th>
+            <th>Opções</th>
           </tr>
 
         </thead>
@@ -37,8 +38,9 @@
             <td>{{ usuario.id }}</td>
             <td>{{ usuario.nome }}</td>
             <td>{{ usuario.cpf }}</td>
-            <td>{{ usuario.dataNascimento }}</td>
+            <td>{{ usuario.dataNascimento.split('-').reverse().join('/') }}</td>             
             <td>{{ usuario.sexo }}</td>
+            <td>{{ usuario.dataCadastro }}</td>
 
            
             <td>             
@@ -72,7 +74,7 @@
           cpf:'',
           dataNascimento:'',
           sexo:'',
-          dacaCadastro:''
+          dataCadastro:''
         },
         usuarios: []
       }

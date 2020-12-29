@@ -50,6 +50,18 @@
                 Selecione o gênero.
               </div>
           </div>
+
+          <div class="col-md-4">
+              <label for="cargo" class="form-label">Cargo</label>
+              <select class="form-select" id="cargo" v-model="usuario.idCargo" required>
+              <option selected disabled value="">Selecione...</option>
+              <option v-for="cargo of cargos" :key="cargo.id" :value="cargo.id">{{cargo.cargo}}</option>
+
+              </select>
+              <div class="invalid-feedback">
+                É necessário selecionar o cargo.
+              </div>
+          </div>
         
         
           
@@ -67,6 +79,8 @@
 <script>
 
   import Usuario from '../services/usuarios'
+  import Cargo from '../services/cargos'
+
 
   
 
@@ -78,28 +92,41 @@
           nome:'',
           cpf:'',
           dataNascimento:'',
-          sexo:''
-
+          sexo:'',
+          idCargo: ''
+        },
+        cargo:{
+          id:'',
+          cargo:''
         },
         usuarios: [],
-        mensagemcpf:''
+        mensagemcpf:'',
+        cargos: []
       }
     },
 
     mounted(){
+      this.listarCargos();
       if(this.$route.params.usuario){
           this.usuario = this.$route.params.usuario;
-      }
+      }     
     },
 
     methods:{
 
-     
+     listarCargos(){
+       Cargo.listar().then(resposta => {      
+            this.cargos = resposta.data
+            console.log(this.cargos)
+        })
+     },
 
       salvar(){
         
         var forms = document.querySelectorAll('.needs-validation');
         var camposIncompletos =false;
+
+        console.log(this.usuario.idCargo.idCargo)
         
         // verificando cada input
         Array.prototype.slice.call(forms).forEach(function (form) {              

@@ -21,6 +21,12 @@ export default{
     buscaCargoDescricao: (cargo) => {
         return http.get('cargo/descricao/'+cargo)
         
+    },
+
+    buscaCargoId: (cargo) => {
+        var result = http.get('cargo/'+cargo);    
+        return result
+        
     }
 
 
