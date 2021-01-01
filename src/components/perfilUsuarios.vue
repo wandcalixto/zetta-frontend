@@ -9,7 +9,7 @@
       <form @submit.prevent="salvar">
 
            <div class="mb-3">
-            <label for="nomePerfilUsuario" class="form-label">Cadastrar Novo Perfil Usuário</label>
+            <label for="nomePerfilUsuario" class="form-label">{{tituloCadastro}}</label>
             <input type="text" class="form-control" id="nomePerfilUsuario" placeholder="Nome" v-model="perfilUsuario.nomePerfilUsuario">
           </div>
           <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Salvar</button>
@@ -21,9 +21,9 @@
         <thead>
 
           <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Opções</th>
+            <th @click="listar('id')" class="pointer">ID <i class="fas fa-sort-down"></i></th>
+            <th @click="listar('nomePerfilUsuario')" class="pointer">NOME <i class="fas fa-sort-down"></i></th>
+            <th>OPÇÕES</th>
           </tr>
 
         </thead>
@@ -64,18 +64,21 @@
           id:'',
           nomePerfilUsuario:''
         },
-        perfilUsuarios: []
+        perfilUsuarios: [],
+        tituloCadastro:'Cadastrar Novo Perfil de Usuário',
+        ordem: 'id'
       }
     },
 
     mounted(){     
-      this.listar()
+      this.listar(this.ordem)
     },
 
     methods:{
 
-      listar(){
-        PerfilUsuario.listar().then(resposta => {      
+      listar(ordem){
+        this.ordem = ordem
+        PerfilUsuario.listar(ordem).then(resposta => {      
             this.perfilUsuarios = resposta.data
         })
       },
@@ -96,7 +99,7 @@
                         alert('Ocorreu um erro ao salvar o Perfil de Usuário!')
                         }
                         this.perfilUsuario = {}
-                        this.listar()                        
+                        this.listar(this.ordem)                        
                     })
                }else{
                    alert('Esse perfil de usuário já está cadastrado no sistema com o id: '+perfilUsuarioExistente.data.id)
@@ -110,7 +113,8 @@
               alert('Perfil de Usuário Alterado com Sucesso!')    
 
               this.perfilUsuario = {}
-              this.listar()
+              this.tituloCadastro = 'Cadastrar Novo Perfil de Usuário'
+              this.listar(this.ordem)
               
             })
           }
@@ -121,17 +125,18 @@
       },
 
       alterar(perfilUsuario){
+        this.tituloCadastro = 'Alterar Perfil de Usuário'
         this.perfilUsuario = perfilUsuario
       },
 
       apagar(perfilUsuario){       
         if(confirm("Deseja remover o perfil de usuário: "+perfilUsuario.nomePerfilUsuario+"?"))  
           PerfilUsuario.apagar(perfilUsuario).then(resposta =>{
-            this.listar()
+            this.listar(this.ordem)
             alert("Perfil de usuário Excluido com Sucesso!")
           }).catch(e =>{
             console.log(e)
-            alert("Ocorreu um erro ao excluir o perfil de usuário!")
+            alert("Ocorreu um erro ao excluir o perfil de usuário!\nCertifique-se que ele não esta associado a nenhum usuario!")
           })
       } 
     }

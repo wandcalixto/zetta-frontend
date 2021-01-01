@@ -5,7 +5,6 @@ import Cargos from './components/cargo.vue';
 import Usuarios from './components/usuarios.vue';
 import PerfilUsuarios from './components/perfilUsuarios.vue';
 import NovoUSuario from './components/novoUsuario.vue';
-import NovoPerfilUsuarios from './components/novoPerfilUsuario.vue';
 import VMask from 'v-mask';
 
 
@@ -32,9 +31,6 @@ const router = new VueRouter({
     
     {
       path: '/perfilUsuarios',  name: 'perfilUsuarios', component: PerfilUsuarios
-    },
-    {
-      path: '/perfilUsuarios/cadastrar', name: 'cadastrarPerfilUsuarios', component: NovoPerfilUsuarios
     }
 
   ]

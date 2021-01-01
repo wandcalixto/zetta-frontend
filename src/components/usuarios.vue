@@ -5,28 +5,20 @@
     
     <div class="container">
       <br>
-      <!-- <form @submit.prevent="salvar">
-
-           <div class="mb-3">
-            <label for="usuario" class="form-label">Pesquisar</label>
-            <input type="text" class="form-control" id="pesquisa" placeholder="Nome" v-model="usuario.nome">
-          </div>
-          <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Pesquisar</button>
-         
-      </form> -->
       <h3>Usuários</h3>      
       <table  class="table table-hover">
         
         <thead>
 
           <tr>
-            <th>ID</th>
-            <th>Nome</th>
+            <th @click="listar('id')" class="pointer">ID <i class="fas fa-sort-down"></i></th>
+            <th @click="listar('nome')" class="pointer">NOME <i class="fas fa-sort-down"></i></th>
             <th>CPF</th>
-            <th>Data de Nascimento</th>
-            <th>Gênero</th>
-            <th>Data do Cadastro</th>
-            <th>Opções</th>
+            <th>DATA DE NASCIMENTO</th>
+            <th>GÊNERO</th>
+            <th>CARGO</th>
+            <th>DATA DO CADASTRO</th>
+            <th>OPÇÕES</th>
           </tr>
 
         </thead>
@@ -40,6 +32,7 @@
             <td>{{ usuario.cpf }}</td>
             <td>{{ usuario.dataNascimento.split('-').reverse().join('/') }}</td>             
             <td>{{ usuario.sexo }}</td>
+            <td>{{ usuario.cargo.cargo }}</td>
             <td>{{ usuario.dataCadastro }}</td>
 
            
@@ -76,18 +69,20 @@
           sexo:'',
           dataCadastro:''
         },
-        usuarios: []
+        usuarios: [],
+        ordem:'id'
       }
     },
 
     mounted(){     
-      this.listar()
+      this.listar(this.ordem)
     },
 
     methods:{
 
-      listar(){
-        Usuario.listar().then(resposta => {      
+      listar(ordem){
+        this.ordem = ordem
+        Usuario.listar(ordem).then(resposta => {      
             this.usuarios = resposta.data
         })
       },    
@@ -99,7 +94,7 @@
       apagar(usuario){       
         if(confirm("Deseja excluir o usuário: "+usuario.nome+"?"))  
           Usuario.apagar(usuario).then(resposta =>{
-            this.listar()
+            this.listar(this.ordem)
             alert("Usuário Excluído com Sucesso!")
           }).catch(e =>{
             console.log(e)

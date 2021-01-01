@@ -6,7 +6,7 @@
     <div class="container">
         <br>
     <form class="row g-3 needs-validation form" novalidate  @submit.prevent="salvar">
-          <h3>Cadastro de Usuário</h3> 
+          <h3>{{titulo}}</h3> 
           <div class="col-md-4">
               <label for="nome" class="form-label">Nome completo <i class="obrigatorio">*</i></label>
               <input type="text" class="form-control" id="nome" required v-model="usuario.nome">                             
@@ -53,7 +53,7 @@
 
           <div class="col-md-4">
               <label for="cargo" class="form-label">Cargo</label>
-              <select class="form-select" id="cargo" v-model="usuario.idCargo" required>
+              <select class="form-select" id="cargo" v-model="usuario.cargo.id" required>
               <option selected disabled value="">Selecione...</option>
               <option v-for="cargo of cargos" :key="cargo.id" :value="cargo.id">{{cargo.cargo}}</option>
 
@@ -62,10 +62,18 @@
                 É necessário selecionar o cargo.
               </div>
           </div>
-        
+         <h4>Perfis de Usuário</h4> 
+        <div class="col-md-4">
+          <div class="form-check form-switch pointer" v-for="perfilUsuario of perfilUsuarios" :key="perfilUsuario.id" >
+            <input class="form-check-input pointer" type="checkbox" v-bind:id="'perfilUsuario'+perfilUsuario.id" :value="perfilUsuario" v-model="usuario.perfilUsuarios">
+            <label class="form-check-label pointer" v-bind:for="'perfilUsuario'+perfilUsuario.id">{{perfilUsuario.nomePerfilUsuario}}</label>
+          </div>
+        </div>
+
         
           
           <div class="col-12">
+              <button class="btn btn-danger" @click="voltar()"  type="button"><i class="fas fa-times"></i> Cancelar</button>&nbsp;
               <button class="btn btn-primary" type="submit"><i class="fas fa-save"></i> Salvar</button>
           </div>
          
@@ -80,6 +88,8 @@
 
   import Usuario from '../services/usuarios'
   import Cargo from '../services/cargos'
+  import PerfilUsuario from '../services/perfilUsuarios'
+
 
 
   
@@ -92,32 +102,55 @@
           nome:'',
           cpf:'',
           dataNascimento:'',
-          sexo:'',
-          idCargo: ''
+          sexo:'',        
+          cargo: {
+            id:'',
+            cargo: ''
+          },
+          perfilUsuarios:[
+           
+          ]
         },
         cargo:{
           id:'',
           cargo:''
         },
+        perfilUsuarios:{
+          id:'',
+          nomePerfilUsuario:''
+        },
         usuarios: [],
         mensagemcpf:'',
-        cargos: []
+        cargos: [],
+        titulo:'Cadastro de Usuário'
       }
     },
 
     mounted(){
       this.listarCargos();
+      this.listarPerfilUsuarios();
       if(this.$route.params.usuario){
           this.usuario = this.$route.params.usuario;
       }     
+      if(this.usuario.id){
+        this.titulo = 'Alterar Usuário'
+      }
     },
 
     methods:{
-
+      voltar(){
+        window.location.href='../#/usuarios';
+      },
+      listarPerfilUsuarios(){
+       PerfilUsuario.listar().then(resposta => {   
+            
+            this.perfilUsuarios = resposta.data 
+            
+        })
+     },
      listarCargos(){
-       Cargo.listar().then(resposta => {      
-            this.cargos = resposta.data
-            console.log(this.cargos)
+       Cargo.listar().then(resposta => {         
+            this.cargos = resposta.data 
         })
      },
 
@@ -125,8 +158,6 @@
         
         var forms = document.querySelectorAll('.needs-validation');
         var camposIncompletos =false;
-
-        console.log(this.usuario.idCargo.idCargo)
         
         // verificando cada input
         Array.prototype.slice.call(forms).forEach(function (form) {              
@@ -144,13 +175,14 @@
             if(!this.usuario.id){//entre se não houver id, significa que é um usuario novo
               //agora que já validamos os campos e o formato do cpf vamos consultar o banco de dados para saber o o cpf ja nao está cadastrado
               Usuario.buscaUsuarioCpf(this.usuario.cpf).then(cpfExistente => {              
-                if(cpfExistente.data == null || cpfExistente.data == ""){                               
+                if(cpfExistente.data == null || cpfExistente.data == ""){      
+                      console.log(this.usuario);                         
                       Usuario.salvar(this.usuario).then(resposta => {                      
                           if(resposta.data.id){
                             alert('Salvo com Sucesso!')
                             window.location.href="../#/usuarios";
                           }else{
-                            alert('Ocorreu um erro ao salvar o Cargo!')
+                            alert('Ocorreu um erro ao salvar o Usuario!')
                           }                                           
                       })
                 }else{
@@ -224,6 +256,9 @@
  }
  .form{
    width: 100%;
+ }
+ .pointer{
+   cursor:pointer;
  }
 
 </style>

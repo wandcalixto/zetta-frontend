@@ -9,20 +9,21 @@
       <form @submit.prevent="salvar">
 
            <div class="mb-3">
-            <label for="cargo" class="form-label">Cadastrar Novo Cargo</label>
+            <label for="cargo" class="form-label">{{tituloCadastro}}</label>
             <input type="text" class="form-control" id="cargo" placeholder="Cargo" v-model="cargo.cargo">
           </div>
           <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Salvar</button>
          
       </form>
+      
 
       <table  class="table table-hover">
 
         <thead>
 
           <tr>
-            <th>ID</th>
-            <th>CARGO</th>
+            <th @click="listar('id')" class="pointer">ID <i class="fas fa-sort-down"></i></th>
+            <th @click="listar('cargo')" class="pointer">CARGO <i class="fas fa-sort-down"></i></th>
             <th>OPÇÕES</th>
           </tr>
 
@@ -64,30 +65,28 @@
           id:'',
           cargo:''
         },
-        cargos: []
+        cargos: [],
+        tituloCadastro:'Cadastrar Novo Cargo',
+        ordem:'id'
       }
     },
 
     mounted(){     
-      this.listar()
+      this.listar(this.ordem)
     },
 
     methods:{
 
-      listar(){
-        Cargo.listar().then(resposta => {      
+      listar(ordem){        
+        this.ordem = ordem
+        Cargo.listar(ordem).then(resposta => {      
             this.cargos = resposta.data
         })
       },
 
       salvar(){
-        //antes de salvar o cargo vamos verificar se ele já não esta cadastrado
-    
-      
-
-       
-     
-       
+        //antes de salvar o cargo vamos verificar se ele já não esta cadastrado 
+             
         if(this.cargo.cargo != "" && this.cargo.cargo != null){
           if(!this.cargo.id){//aqui estamos salvando um novo cargo
             Cargo.buscaCargoDescricao(this.cargo.cargo).then(cargoExistente => {//verificamos se o novo cargo ja não existe, a função de inserção também verifica
@@ -96,12 +95,12 @@
                     Cargo.salvar(this.cargo).then(resposta => {
                     
                         if(resposta.data.id){
-                        alert('Salvo com Sucesso!')
+                          alert('Salvo com Sucesso!')
                         }else{
-                        alert('Ocorreu um erro ao salvar o Cargo!')
+                          alert('Ocorreu um erro ao salvar o Cargo!')
                         }
                         this.cargo = {}
-                        this.listar()                        
+                        this.listar(this.ordem)                        
                     })
                }else{
                    alert('Esse cargo já está cadastrado no sistema com o id: '+cargoExistente.data.id)
@@ -115,7 +114,8 @@
               alert('Cargo Alterado com Sucesso!')    
 
               this.cargo = {}
-              this.listar()
+              this.tituloCadastro = 'Cadastrar Novo Cargo'
+              this.listar(this.ordem)
               
             })
           }
@@ -126,17 +126,18 @@
       },
 
       alterar(cargo){
-        this.cargo = cargo
+        this.tituloCadastro = "Alterar Cargo";
+        this.cargo = cargo;
       },
 
       apagar(cargo){       
         if(confirm("Deseja remover o cargo: "+cargo.cargo+"?"))  
           Cargo.apagar(cargo).then(resposta =>{
-            this.listar()
+            this.listar(this.ordem)
             alert("Cargo Excluido com Sucesso!")
           }).catch(e =>{
             console.log(e)
-            alert("Ocorreu um erro ao excluir o cargo!")
+            alert("Ocorreu um erro ao excluir o cargo!\nCertifique-se que ele não esta associado a nenhum usuario!")
           })
       }
     }
@@ -145,6 +146,8 @@
 </script>
 
 <style>
-
+  .pointer{
+    cursor: pointer;
+  }
 
 </style>

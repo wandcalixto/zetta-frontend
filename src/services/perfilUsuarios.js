@@ -2,8 +2,8 @@ import {http} from './config'
 
 export default{
 
-    listar:() => {
-        return http.get('perfilUsuarios')
+    listar:(ordem) => {
+        return http.get('perfilUsuarios/'+ordem)
     },
 
     salvar:(perfilUsuario) => { 
