@@ -5,6 +5,8 @@ import Cargos from './components/cargo.vue';
 import Usuarios from './components/usuarios.vue';
 import PerfilUsuarios from './components/perfilUsuarios.vue';
 import NovoUSuario from './components/novoUsuario.vue';
+import Apresentacao from './components/apresentacao.vue';
+
 import VMask from 'v-mask';
 
 
@@ -20,6 +22,9 @@ Vue.use(VueRouter);
 const router = new VueRouter({
   routes: [
     {
+      path: '/apresentacao', name: 'apresentacao',  component: Apresentacao
+    },
+    {
       path: '/cargos', name: 'cargos',  component: Cargos
     },
     {
@@ -31,7 +36,11 @@ const router = new VueRouter({
     
     {
       path: '/perfilUsuarios',  name: 'perfilUsuarios', component: PerfilUsuarios
+    },
+    {
+      path:'', redirect: '/apresentacao'      
     }
+    
 
   ]
 })
