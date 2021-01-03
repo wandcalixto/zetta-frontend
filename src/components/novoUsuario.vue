@@ -52,7 +52,7 @@
           </div>
 
           <div class="col-md-4">
-              <label for="cargo" class="form-label">Cargo</label>
+              <label for="cargo" class="form-label">Cargo <i class="obrigatorio">*</i></label>
               <select class="form-select" id="cargo" v-model="usuario.cargo.id" required>
               <option selected disabled value="">Selecione...</option>
               <option v-for="cargo of cargos" :key="cargo.id" :value="cargo.id">{{cargo.cargo}}</option>
@@ -64,6 +64,7 @@
           </div>
          <h4>Perfis de Usuário</h4> 
         <div class="col-md-4">
+          {{MensagemSemPerfilUsuario}}
           <div class="form-check form-switch pointer" v-for="perfilUsuario of perfilUsuarios" :key="perfilUsuario.id" >
             <input class="form-check-input pointer" type="checkbox" v-bind:id="'perfilUsuario'+perfilUsuario.id" :value="perfilUsuario" v-model="usuario.perfilUsuarios">
             <label class="form-check-label pointer" v-bind:for="'perfilUsuario'+perfilUsuario.id">{{perfilUsuario.nomePerfilUsuario}}</label>
@@ -122,7 +123,8 @@
         usuarios: [],
         mensagemcpf:'',
         cargos: [],
-        titulo:'Cadastro de Usuário'
+        titulo:'Cadastro de Usuário',
+        MensagemSemPerfilUsuario: ''
       }
     },
 
@@ -133,7 +135,7 @@
           this.usuario = this.$route.params.usuario;
       }     
       if(this.usuario.id){
-        this.titulo = 'Alterar Usuário'
+        this.titulo = 'Alterar Usuário';
       }
     },
 
@@ -143,8 +145,10 @@
       },
       listarPerfilUsuarios(){
        PerfilUsuario.listar().then(resposta => {   
-            
-            this.perfilUsuarios = resposta.data 
+            if(!resposta.data.length){
+              this.MensagemSemPerfilUsuario = 'Não existem perfis de usuários cadastrados para associar!';
+            }
+            this.perfilUsuarios = resposta.data;
             
         })
      },
@@ -182,7 +186,7 @@
                             alert('Salvo com Sucesso!')
                             window.location.href="../#/usuarios";
                           }else{
-                            alert('Ocorreu um erro ao salvar o Usuario!')
+                            alert('Ocorreu um erro ao salvar o usuário!')
                           }                                           
                       })
                 }else{
@@ -192,7 +196,7 @@
               })
             }else{
                Usuario.alterar(this.usuario).then(resposta => {                         
-                alert('Usuario alterado com Sucesso!')    
+                alert('Usuário alterado com Sucesso!')    
                 window.location.href="../#/usuarios";
               })
             }

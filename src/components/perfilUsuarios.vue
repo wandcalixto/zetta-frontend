@@ -136,7 +136,7 @@
             alert("Perfil de usuário Excluido com Sucesso!")
           }).catch(e =>{
             console.log(e)
-            alert("Ocorreu um erro ao excluir o perfil de usuário!\nCertifique-se que ele não esta associado a nenhum usuario!")
+            alert("Ocorreu um erro ao excluir o perfil de usuário!\nCertifique-se que ele não esta associado a nenhum usuário!")
           })
       } 
     }

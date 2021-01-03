@@ -137,7 +137,7 @@
             alert("Cargo Excluido com Sucesso!")
           }).catch(e =>{
             console.log(e)
-            alert("Ocorreu um erro ao excluir o cargo!\nCertifique-se que ele não esta associado a nenhum usuario!")
+            alert("Ocorreu um erro ao excluir o cargo!\nCertifique-se que ele não esta associado a nenhum usuário!")
           })
       }
     }
