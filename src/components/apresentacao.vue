@@ -8,7 +8,7 @@
         <br>
         <b>Olá,</b>
         <br>
-        Eu me chamo Wanderson Calito da Silva, sou formado em Ciência da Computação e trabalho há três anos como programador.<br>
+        Eu me chamo Wanderson Calixto da Silva, sou formado em Ciência da Computação e trabalho há três anos como programador.<br>
         Esta aplicação foi criada a partir do Desafio Prático do processo seletivo da Agência Zetta.<br>
         Entre as diversas tecnologias utilizadas no desenvolvimento, pode-se listar:
        <ul>
